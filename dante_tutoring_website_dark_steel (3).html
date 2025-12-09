@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>David L. | Math & Science Tutoring</title>
+  <style>
+    :root {
+      --bg: #05070a;
+      --bg-elevated: #0d1117;
+      --accent: #5bc0ff;
+      --accent-soft: rgba(91, 192, 255, 0.15);
+      --accent-strong: #8be9ff;
+      --text-main: #e5e9f0;
+      --text-muted: #7b8190;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --danger: #ff5370;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top, #141b25 0, #05070a 45%, #020309 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    .noise-overlay {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='noStitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.18'/%3E%3C/svg%3E");
+      mix-blend-mode: soft-light;
+      opacity: 0.5;
+      z-index: 0;
+    }
+
+    .gradient-ring {
+      position: fixed;
+      width: 480px;
+      height: 480px;
+      border-radius: 999px;
+      background: conic-gradient(from 130deg, rgba(91, 192, 255, 0.15), transparent, rgba(139, 233, 255, 0.08), transparent);
+      filter: blur(32px);
+      opacity: 0.9;
+      top: -160px;
+      right: -120px;
+      z-index: 0;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(24px);
+      background: linear-gradient(to bottom, rgba(5, 7, 10, 0.9), rgba(5, 7, 10, 0.65));
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, var(--accent-strong), var(--accent));
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 0 16px rgba(91, 192, 255, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .brand-text span:first-child {
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+    }
+
+    .brand-text span:last-child {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    nav ul {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text-muted);
+      position: relative;
+      padding-bottom: 0.3rem;
+      transition: color 0.2s ease;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+      border-radius: 999px;
+      transition: width 0.16s ease-out;
+    }
+
+    nav a:hover {
+      color: var(--accent-strong);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.95rem;
+      border-radius: 999px;
+      border: 1px solid rgba(139, 233, 255, 0.6);
+      background: radial-gradient(circle at 0 0, rgba(139, 233, 255, 0.35), rgba(5, 7, 10, 0.9));
+      color: var(--accent-strong);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      box-shadow: 0 0 24px rgba(91, 192, 255, 0.35);
+      transition: box-shadow 0.18s ease, transform 0.18s ease, background 0.18s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 36px rgba(91, 192, 255, 0.6);
+      background: radial-gradient(circle at 0 0, rgba(139, 233, 255, 0.6), rgba(5, 7, 10, 0.95));
+    }
+
+    .nav-cta span.icon {
+      font-size: 1rem;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 3.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3.2fr) minmax(0, 2.4fr);
+      gap: 2.5rem;
+      align-items: center;
+      padding-top: 0.5rem;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.7rem 0.25rem 0.3rem;
+      border-radius: 999px;
+      background: rgba(12, 17, 23, 0.9);
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 0 0 1px rgba(91, 192, 255, 0.2);
+      margin-bottom: 0.9rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .hero-kicker-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, var(--accent-strong), var(--accent));
+      box-shadow: 0 0 20px rgba(91, 192, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 3vw, 3.1rem);
+      line-height: 1.06;
+      letter-spacing: 0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 span.highlight {
+      background: linear-gradient(120deg, var(--accent-strong), #ffffff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p.lead {
+      max-width: 34rem;
+      font-size: 0.98rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.4rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .metric {
+      min-width: 120px;
+    }
+
+    .metric span.value {
+      display: block;
+      font-size: 1.4rem;
+      font-weight: 650;
+      color: var(--accent-strong);
+    }
+
+    .metric span.label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      align-items: center;
+    }
+
+    .btn-primary, .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.7rem 1.25rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      border: 1px solid transparent;
+      cursor: pointer;
+      background: none;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #05070a;
+      border-color: rgba(0, 0, 0, 0.9);
+      box-shadow: 0 0 32px rgba(91, 192, 255, 0.6);
+      font-weight: 640;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow: 0 0 40px rgba(139, 233, 255, 0.7);
+    }
+
+    .btn-ghost {
+      border-color: var(--border-subtle);
+      color: var(--text-muted);
+      background: rgba(5, 7, 10, 0.8);
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(139, 233, 255, 0.5);
+      color: var(--accent-strong);
+    }
+
+    .hero-right {
+      position: relative;
+    }
+
+    .panel {
+      background: linear-gradient(150deg, rgba(14, 24, 34, 0.96), rgba(5, 7, 10, 0.97));
+      border-radius: 1.5rem;
+      padding: 1.4rem 1.35rem;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(91, 192, 255, 0.08), transparent, rgba(139, 233, 255, 0.08));
+      opacity: 0.9;
+      mix-blend-mode: soft-light;
+      pointer-events: none;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-header-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+    }
+
+    .status-pill {
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(97, 218, 251, 0.6);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-strong);
+      background: rgba(5, 12, 18, 0.7);
+    }
+
+    .panel-grid {
+      display: grid;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      padding: 0.32rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(91, 192, 255, 0.4);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-strong);
+      background: rgba(6, 13, 20, 0.85);
+    }
+
+    .score-card-wrapper {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+    }
+
+    .score-card {
+      border-radius: 1rem;
+      padding: 0.7rem 0.8rem;
+      background: linear-gradient(145deg, rgba(8, 16, 24, 0.9), rgba(6, 11, 18, 0.95));
+      border: 1px solid rgba(120, 130, 140, 0.5);
+    }
+
+    .score-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .score-value {
+      font-size: 1.05rem;
+      font-weight: 640;
+      color: var(--accent-strong);
+    }
+
+    .score-sub {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .panel-footer-note {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .panel-footer-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--danger);
+    }
+
+    section {
+      margin-top: 0.4rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      color: var(--text-main);
+    }
+
+    .section-header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      max-width: 26rem;
+    }
+
+    .section-tag {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--accent-strong);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      border-radius: 1.25rem;
+      padding: 1rem;
+      background: linear-gradient(145deg, rgba(10, 15, 23, 0.96), rgba(5, 7, 10, 0.98));
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 0, rgba(91, 192, 255, 0.12), transparent 60%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .card-kicker {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent-strong);
+      margin-bottom: 0.4rem;
+    }
+
+    .card h3 {
+      font-size: 0.98rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .card ul {
+      list-style: none;
+      margin-top: 0.75rem;
+      display: grid;
+      gap: 0.35rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card li {
+      font-size: 0.8rem;
+      color: var(--text-main);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.35rem;
+    }
+
+    .card li span.bullet {
+      width: 0.85rem;
+      display: inline-block;
+      text-align: center;
+      color: var(--accent-strong);
+    }
+
+    .pill-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .pill-strip span {
+      padding: 0.24rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      background: rgba(5, 7, 10, 0.8);
+    }
+
+    .timeline {
+      border-left: 1px solid rgba(120, 130, 140, 0.6);
+      padding-left: 1rem;
+      margin-top: 0.4rem;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .timeline-item {
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -1.09rem;
+      top: 0.2rem;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, var(--accent-strong), var(--accent));
+      box-shadow: 0 0 16px rgba(91, 192, 255, 0.9);
+    }
+
+    .timeline-item span.step-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.1rem;
+    }
+
+    .timeline-item h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .timeline-item p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
+      gap: 1.3rem;
+    }
+
+    .contact-meta {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .contact-meta strong {
+      color: var(--text-main);
+    }
+
+    .contact-meta a {
+      color: var(--accent-strong);
+      text-decoration: none;
+    }
+
+    .contact-meta a:hover {
+      text-decoration: underline;
+    }
+
+    form {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 0.6rem 0.7rem;
+      border-radius: 0.9rem;
+      border: 1px solid rgba(120, 130, 140, 0.85);
+      background: rgba(5, 7, 10, 0.9);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: rgba(123, 129, 144, 0.9);
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(139, 233, 255, 0.9);
+      box-shadow: 0 0 24px rgba(91, 192, 255, 0.5);
+      background: #05070a;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .inline-field-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.7rem;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .badge-row span {
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 1.5rem;
+      padding-top: 1.2rem;
+      padding-bottom: 0.7rem;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    footer a {
+      color: var(--accent-strong);
+      text-decoration: none;
+      font-size: 0.76rem;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-right {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .footer-pill {
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      font-size: 0.7rem;
+    }
+
+    .footer-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, var(--accent-strong), var(--accent));
+      box-shadow: 0 0 10px rgba(91, 192, 255, 0.8);
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-right {
+        order: -1;
+      }
+
+      .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .grid-3 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .grid-2 {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .nav-inner {
+        flex-wrap: wrap;
+      }
+
+      nav ul {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding-inline: 1rem;
+      }
+
+      .hero {
+        gap: 1.6rem;
+      }
+
+      .panel {
+        padding: 1.1rem 1rem;
+      }
+
+      .score-card-wrapper {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .inline-field-row {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise-overlay"></div>
+  <div class="gradient-ring"></div>
+
+  <header>
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="brand-badge">D</div>
+        <div class="brand-text">
+          <span>David L. Tutoring</span>
+          <span>Math • Physics • Chemistry</span>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#subjects">Subjects</a></li>
+          <li><a href="#process">How it works</a></li>
+          <li><a href="#contact">Book</a></li>
+        </ul>
+      </nav>
+      <a href="#contact" class="nav-cta"><span class="icon">●</span><span>Free 15-min call</span></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-left">
+        <div class="hero-kicker">
+          <div class="hero-kicker-dot"></div>
+          <span>One-on-one tutoring that actually fixes weak chapters</span>
+        </div>
+        <h1>
+          Brutally clear <span class="highlight">math & science</span> support
+          for students who want A-level results.
+        </h1>
+        <p class="lead">
+          I'm David L. — a senior student in Vancouver who went from average to top of the class in my final years.
+          I tutor high-school math (Math 8–Calculus 12) plus Physics and Chemistry 11–12 using the same system I used
+          to turn 70s into high 90s: focused drills, mock exams, and zero sugar-coating.
+        </p>
+
+        <div class="hero-metrics">
+          <div class="metric">
+            <span class="value">90%+</span>
+            <span class="label">Recent math chapters</span>
+          </div>
+          <div class="metric">
+            <span class="value">3</span>
+            <span class="label">Core subjects: Math / Phys / Chem</span>
+          </div>
+          <div class="metric">
+            <span class="value">1 : 1</span>
+            <span class="label">Fully personalized plans</span>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary">Book a trial session</a>
+          <a href="#services" class="btn-ghost">View services & pricing</a>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-header-title">Profile snapshot</span>
+            <span class="status-pill">Accepting new students</span>
+          </div>
+
+          <div class="panel-grid">
+            <div class="pill-row">
+              <span class="pill">High school & early university</span>
+              <span class="pill">Online or in-person in Vancouver (+$4 home visit)</span>
+            </div>
+
+            <div class="score-card-wrapper">
+              <div class="score-card">
+                <div class="score-label">Math focus</div>
+                <div class="score-value">Calculus • Pre-Calc</div>
+                <div class="score-sub">Limits, derivatives, integrals, functions</div>
+              </div>
+              <div class="score-card">
+                <div class="score-label">Science focus</div>
+                <div class="score-value">Physics • Chem</div>
+                <div class="score-sub">Problem-solving, labs, exam strategy</div>
+              </div>
+            </div>
+
+            <div class="panel-footer-note">
+              <span class="panel-footer-tag">No fluff</span>
+              <span>We attack your weakest topics first, then build a system you can run without me.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Services</div>
+          <h2>What I actually do with you</h2>
+        </div>
+        <p>
+          This is not "watch me solve problems" tutoring. Every session is built around your current
+          chapter, your next test date, and the exact marks you want.
+        </p>
+      </div>
+
+      <div class="grid grid-3">
+        <article class="card">
+          <div class="card-kicker">Core</div>
+          <h3>Intense 1:1 tutoring</h3>
+          <p>
+            Live sessions where we drill concepts, expose gaps, and fix them on the spot.
+            You'll be explaining problems back to me — not just copying steps.
+          </p>
+          <ul>
+            <li><span class="bullet">▸</span><span>Structured by topic (e.g. limits, trig, kinematics)</span></li>
+            <li><span class="bullet">▸</span><span>We build a custom formula sheet and strategy notes</span></li>
+            <li><span class="bullet">▸</span><span>Homework between sessions with targeted questions</span></li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="card-kicker">Exam-mode</div>
+          <h3>Mock papers & corrections</h3>
+          <p>
+            I design mock tests based on your course outline or past papers, mark them hard,
+            and show you exactly where marks are being lost.
+          </p>
+          <ul>
+            <li><span class="bullet">▸</span><span>Full mock exams with realistic timing</span></li>
+            <li><span class="bullet">▸</span><span>Detailed mark breakdown & error patterns</span></li>
+            <li><span class="bullet">▸</span><span>Correction sessions that rebuild your solution from scratch</span></li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="card-kicker">Custom</div>
+          <h3>Course & chapter design</h3>
+          <p>
+            For serious students who want more than just passing: we build a full plan for the term
+            with weekly objectives, drills, and check-points.
+          </p>
+          <ul>
+            <li><span class="bullet">▸</span><span>Full-term roadmap for math and/or science</span></li>
+            <li><span class="bullet">▸</span><span>Weekly problem sets and progress checks</span></li>
+            <li><span class="bullet">▸</span><span>Integration with your school tests & deadlines</span></li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="pill-strip">
+        <span>1:1 or small group (2–3)</span>
+        <span>Online via Zoom / Discord</span>
+        <span>In-person possible in Vancouver</span>
+        <span>Homework feedback between sessions</span>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Pricing &amp; models</div>
+          <h2>Choose how serious you want to get</h2>
+        </div>
+        <p>
+          Straight pricing: $17 per hour for 1:1 sessions, $10 for each custom mock exam paper
+          (written and fully marked), and +$4 per in-home session in Vancouver. You choose the
+          model; we keep the structure disciplined.
+        </p>
+      </div>
+
+      <div class="grid grid-3">
+        <article class="card">
+          <div class="card-kicker">Baseline</div>
+          <h3>1:1 weekly sessions</h3>
+          <div style="margin:0.35rem 0 0.6rem;">
+            <!-- Set your real hourly rate -->
+            <span style="font-size:1.15rem;font-weight:650;color:var(--accent-strong);">$17</span>
+            <span style="font-size:0.8rem;color:var(--text-muted);"> / 60 min</span>
+          </div>
+          <ul>
+            <li><span class="bullet">▸</span><span>1 or 2 sessions per week focused on your current course</span></li>
+            <li><span class="bullet">▸</span><span>Step-by-step breakdown of your weakest topics each week</span></li>
+            <li><span class="bullet">▸</span><span>Homework check + 3–8 targeted problems between sessions</span></li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="card-kicker">Exam mode</div>
+          <h3>Exam sprint package</h3>
+          <div style="margin:0.35rem 0 0.6rem;">
+            <!-- Set your real package rate -->
+            <span style="font-size:1.15rem;font-weight:650;color:var(--accent-strong);">$17X</span>
+            <span style="font-size:0.8rem;color:var(--text-muted);"> for 4-session sprint</span>
+          </div>
+          <ul>
+            <li><span class="bullet">▸</span><span>4–6 intensive sessions over 2–4 weeks before a major exam</span></li>
+            <li><span class="bullet">▸</span><span>Custom mock paper based on your course &amp; past tests ($10 each, written and fully marked)</span></li>
+            <li><span class="bullet">▸</span><span>Full correction session with mark breakdown and fix plan</span></li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="card-kicker">Serious</div>
+          <h3>Full-term program</h3>
+          <div style="margin:0.35rem 0 0.6rem;">
+            <!-- Set your real monthly / term rate -->
+            <span style="font-size:1.15rem;font-weight:650;color:var(--accent-strong);">Custom</span>
+            <span style="font-size:0.8rem;color:var(--text-muted);"> based on $17/hr + $10 per mock, quoted per month / term</span>
+          </div>
+          <ul>
+            <li><span class="bullet">▸</span><span>1–2 sessions every week for an entire term or semester</span></li>
+            <li><span class="bullet">▸</span><span>Chapter-by-chapter plan, aligned with your school schedule</span></li>
+            <li><span class="bullet">▸</span><span>Priority booking around quizzes, midterms and finals</span></li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="pill-strip">
+        <span>1:1 or small group (2–3) with discount</span>
+        <span>60 or 90 minute options</span>
+        <span>Online or in-person (Vancouver)</span>
+        <span>Free 15-min call before committing</span>
+      </div>
+    </section>
+
+    <section id="subjects">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Subjects & Levels</div>
+          <h2>Where I can actually help you win</h2>
+        </div>
+        <p>
+          I focus on the subjects where I have done the grind myself. If it's not in this list,
+          I won't pretend I can teach it.
+        </p>
+      </div>
+
+      <div class="grid grid-2">
+        <article class="card">
+          <div class="card-kicker">Math</div>
+          <h3>Math 8 – Calculus 12</h3>
+          <p>
+            From middle school foundations up to Pre-Calculus and Calculus 12, with a focus on
+            understanding the "why" behind each move instead of just memorizing steps.
+          </p>
+          <ul>
+            <li><span class="bullet">▸</span><span>Math 8–10: fractions, algebra basics, linear equations, word problems</span></li>
+            <li><span class="bullet">▸</span><span>Pre-Calculus: functions, trig, exponentials & logs, sequences</span></li>
+            <li><span class="bullet">▸</span><span>Calculus: limits, derivatives, applications, integrals</span></li>
+            <li><span class="bullet">▸</span><span>Contest-style problem practice for students aiming higher</span></li>
+          </ul>
+          <div class="badge-row">
+            <span>Target: 85% → 95%+</span>
+            <span>Error analysis every test</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-kicker">Science</div>
+          <h3>Physics & Chemistry</h3>
+          <p>
+            Physics 11–12 and Chemistry 11–12 taught as step-by-step logic, so every formula
+            you use actually makes sense.
+          </p>
+          <ul>
+            <li><span class="bullet">▸</span><span>Physics: kinematics, forces, energy, basic circuits, waves</span></li>
+            <li><span class="bullet">▸</span><span>Chemistry: stoichiometry, reactions, bonding, gas laws</span></li>
+            <li><span class="bullet">▸</span><span>Lab report structure & calculation support</span></li>
+          </ul>
+          <div class="badge-row">
+            <span>Clear formula sheets</span>
+            <span>Step-by-step solutions</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Process</div>
+          <h2>How working with me feels</h2>
+        </div>
+        <p>
+          The goal is simple: understand the concept, crush the test, and build habits so you don't
+          need a tutor forever.
+        </p>
+      </div>
+
+      <div class="grid grid-2">
+        <article class="card">
+          <div class="card-kicker">Rhythm</div>
+          <h3>60-minute session structure</h3>
+          <ul>
+            <li><span class="bullet">1.</span><span>Review last quiz or homework and quick diagnostic</span></li>
+            <li><span class="bullet">2.</span><span>Error analysis on where you lost marks and how to fix the pattern</span></li>
+            <li><span class="bullet">3.</span><span>Guided practice with you explaining your steps using mock-style questions (or timed mini-papers near exams)</span></li>
+            <li><span class="bullet">4.</span><span>Independent problems \+ clear homework set for after the session</span></li>
+            <li><span class="bullet">5.</span><span>Theorem / concept explanation and summary, so the formulas actually make sense</span></li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="card-kicker">Consistency</div>
+          <h3>From first call to exam week</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <span class="step-label">Step 1</span>
+              <h3>Free 15-min call</h3>
+              <p>We look at your current grades, upcoming tests, and decide if I'm a good fit.</p>
+            </div>
+            <div class="timeline-item">
+              <span class="step-label">Step 2</span>
+              <h3>Placement & plan</h3>
+              <p>Short diagnostic + plan for the next 4–6 weeks, sent to you after the first session.</p>
+            </div>
+            <div class="timeline-item">
+              <span class="step-label">Step 3</span>
+              <h3>Weekly sessions</h3>
+              <p>We meet 1–2 times per week, with homework and mock questions between sessions.</p>
+            </div>
+            <div class="timeline-item">
+              <span class="step-label">Step 4</span>
+              <h3>Exam lock-in</h3>
+              <p>Closer to tests, we switch to mock papers, timed drills, and full correction cycles.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Book a trial</div>
+          <h2>Ready to fix your weak chapters?</h2>
+        </div>
+        <p>
+          Fill this out with real details. I'll get back to you to schedule a short call and see if
+          we can actually work together.
+        </p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="card contact-meta">
+          <p><strong>Location:</strong> Vancouver, BC – online, or home service within Vancouver (+$4 transport fee per home visit).</p>
+          <p><strong>Ideal student:</strong> High school student in Math 8–12, Calculus 12, Physics 11–12, or Chemistry 11–12 who wants to push marks higher, not just pass.</p>
+          <p><strong>Session length:</strong> Standard 60-minute sessions. 90-minute blocks available for exam prep.</p>
+          <p><strong>Pricing summary:</strong> $17 per hour for 1:1 tutoring, $10 per custom mock exam paper with full marking, and +$4 per in-home session in Vancouver.</p>
+          <p>
+            <strong>Contact:</strong><br />
+            Phone: <a href="tel:+16723380055">(672) 338-0055</a><br />
+            Email: <a href="mailto:david93515323@gmail.com">david93515323@gmail.com</a><br />
+            Or use the form on this page (make sure to enter a real email so I can reply).
+          </p>
+        </div>
+
+        <div class="card">
+          <form>
+            <div class="inline-field-row">
+              <div>
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" placeholder="Student or parent name" required />
+              </div>
+              <div>
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" placeholder="you@example.com" required />
+              </div>
+            </div>
+
+            <div class="inline-field-row">
+              <div>
+                <label for="grade">Grade / Level</label>
+                <input id="grade" name="grade" type="text" placeholder="e.g. Grade 11, first-year" />
+              </div>
+              <div>
+                <label for="subject">Subject</label>
+                <select id="subject" name="subject">
+                  <option value="" disabled selected>Select a subject</option>
+                  <option>Math 8–10</option>
+                  <option>Math 11–12 (Pre-Calculus)</option>
+                  <option>Calculus 12</option>
+                  <option>Physics 11–12</option>
+                  <option>Chemistry 11–12</option>
+                  <option>Multiple subjects</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="goals">Main goal</label>
+              <textarea id="goals" name="goals" placeholder="Example: Raise my Physics grade from 75% to 88% before June, especially mechanics."></textarea>
+            </div>
+
+            <div>
+              <label for="timeline">Upcoming tests / deadlines</label>
+              <input id="timeline" name="timeline" type="text" placeholder="Example: midterm in 3 weeks, final exam in June" />
+            </div>
+
+            <button type="submit" class="btn-primary">Send request</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>
+        © <span id="year"></span> David L. Tutoring. Built for students who actually want to improve.
+      </div>
+      <div class="footer-right">
+        <div class="footer-pill">
+          <span class="footer-dot"></span>
+          <span style="margin-left: 0.35rem;">No shortcuts, just work.</span>
+        </div>
+        <a href="#top">Back to top ↑</a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
